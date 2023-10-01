@@ -7,6 +7,7 @@ import datetime
 from time import sleep
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from IPython.display import Markdown
+from local_secrets import pinecone_api_key, pinecone_environment    
 
 pdf_paths = \
 [r'ASHA Manuals/ASHA_Handbook-Mobilizing_for_Action_on_Violence_against_Women_English.pdf', 
@@ -65,8 +66,8 @@ index_name = 'chw'
 
 print('Connecting to Pinecone')
 pinecone.init(
-    api_key="20ade500-685f-40da-9af5-186a994e20ec",  # jaycy account since trash dash is taken
-    environment="us-central1-gcp"  # next to API key in console
+    api_key=pinecone_api_key,  # jaycy account since trash dash is taken
+    environment=pinecone_environment  # next to API key in console
 )
 if index_name not in pinecone.list_indexes():
     print(f'Creating {index_name} index')

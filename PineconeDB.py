@@ -3,6 +3,7 @@ import pinecone
 from time import sleep
 import uuid
 import os
+from local_secrets import pinecone_api_key, pinecone_environment
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -66,8 +67,8 @@ class Database:
         return arr
 
 INDEX_NAME = "test"
-PINECONE_API_KEY = 
-PINECONE_ENVIRONMENT = 
+PINECONE_API_KEY = pinecone_api_key
+PINECONE_ENVIRONMENT = pinecone_environment
 EMBED_MODEL = "text-embedding-ada-002"
 
 db = Database(INDEX_NAME, PINECONE_API_KEY, PINECONE_ENVIRONMENT, EMBED_MODEL)
