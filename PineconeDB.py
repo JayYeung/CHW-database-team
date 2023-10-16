@@ -68,7 +68,7 @@ class Database:
 
     def retrieve(self, message):
         query_embedding = self.create_embeddings(message)
-        results = self.index.query(vector=query_embedding, 
+        results = self.index.query(vector = query_embedding, 
                                    include_metadata = True, top_k=10)
         return results
 

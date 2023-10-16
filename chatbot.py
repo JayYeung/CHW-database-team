@@ -4,12 +4,6 @@ import os
 from PineconeDB import Database
 from local_secrets import pinecone_api_key, pinecone_environment
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
-
-#this is everything in gpt.py but it doesn't insert it just retrieves 
-
-#embeddings already created from the gpt.py file and in the database
-#so chatbot team can use this without knowing about database. 
 db = Database(
     index_name = 'chw',
     pinecone_api_key = pinecone_api_key,
