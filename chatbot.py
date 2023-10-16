@@ -4,8 +4,6 @@ import os
 from PineconeDB import Database
 from local_secrets import pinecone_api_key, pinecone_environment
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
-
 db = Database(
     index_name = 'chw',
     pinecone_api_key = pinecone_api_key,
