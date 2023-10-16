@@ -9,6 +9,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from IPython.display import Markdown
 from local_secrets import pinecone_api_key, pinecone_environment    
 
+
+
+
 pdf_paths = \
 [r'ASHA Manuals/ASHA_Handbook-Mobilizing_for_Action_on_Violence_against_Women_English.pdf', 
 r'ASHA Manuals/book-no-1.pdf', 
@@ -51,7 +54,8 @@ for pdf_path in pdf_paths:
         } for j in range(len(texts))])
 
 import os
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+#openai.api_key = os.environ.get("OPENAI_API_KEY")
+
 
 embed_model = "text-embedding-ada-002"
 
@@ -62,7 +66,7 @@ res = openai.Embedding.create(
     ], engine=embed_model
 )
 
-index_name = 'chw'
+index_name = 'chw' #instead of doing this, define it like in pineconeDB (Ashok) using the class
 
 print('Connecting to Pinecone')
 pinecone.init(
@@ -77,8 +81,8 @@ if index_name not in pinecone.list_indexes():
         metric='dotproduct'
     )
 
-index = pinecone.GRPCIndex(index_name)
-index.describe_index_stats()
+index = pinecone.Index(index_name)
+pinecone.describe_index(index_name)
 
 def create_embeddings():
     batch_size = 100
@@ -130,6 +134,8 @@ res = index.query(xq, top_k=10, include_metadata=True)
 
 print(res) # this is the extra context to make our bot smarter
 
+
+#context: put in as context, put into query 
 contexts = []
 for item in res['matches']:
     quote = item['metadata']['text']
@@ -143,6 +149,7 @@ print(augmented_query) # add the additional context to our prompt
 
 # exit()
 
+#given before any query message
 primer = """
 You are a careful advisor to a community health worker (CHW). She is in rural Bihar. She carries supplies for diagnosis such as a thermometer and a rapid strep test. She carries treatments such as ORS, zinc and paracetamol. Your job is to (in order) tell her questions to ask the patient; exams to perform (such as look in throat, take temperature; propose one or more diagnoses; and create a treatment plan. The treatment plan often involves going to the clinic to see a doctor and get prescription medicines.
 The patient, age xx presented with xx 
