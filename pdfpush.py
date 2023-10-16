@@ -65,7 +65,7 @@ res = openai.Embedding.create(
 )
 
 INDEX_NAME = "test"
-PINECONE_API_KEY = "c02fdf29-9560-4dd1-a4b6-76ecc0476995"
+
 PINECONE_ENVIRONMENT = "gcp-starter"
 EMBED_MODEL = "text-embedding-ada-002"
 
