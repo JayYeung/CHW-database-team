@@ -7,6 +7,7 @@ import datetime
 from time import sleep
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from IPython.display import Markdown
+from local_secrets import pinecone_api_key, pinecone_environment    
 
 pdf_paths = \
 [r'ASHA Manuals/ASHA_Handbook-Mobilizing_for_Action_on_Violence_against_Women_English.pdf', 
@@ -65,8 +66,8 @@ index_name = 'chw'
 
 print('Connecting to Pinecone')
 pinecone.init(
-    api_key="20ade500-685f-40da-9af5-186a994e20ec",  # jaycy account since trash dash is taken
-    environment="us-central1-gcp"  # next to API key in console
+    api_key=pinecone_api_key,  # jaycy account since trash dash is taken
+    environment=pinecone_environment  # next to API key in console
 )
 if index_name not in pinecone.list_indexes():
     print(f'Creating {index_name} index')
@@ -125,7 +126,7 @@ res = openai.Embedding.create(
 xq = res['data'][0]['embedding']
 
 # get relevant contexts (including the questions)
-res = index.query(xq, top_k=10, include_metadata=True)
+res = index.query(xq, top_k=int(1e10), include_metadata=True)
 
 print(res) # this is the extra context to make our bot smarter
 
@@ -152,7 +153,6 @@ END GUIDELINES
 Answer solely based on these guidelines. If you cannot find an answer to a question, reply “I do not know.”
 If there are facts that would change diagnosis or treatment, be sure to ask questions or perform physical exams. Be sure to have completed questions before starting exams, and finish exams before starting diagnosis and treatment.
 What questions would you recommend the CHW ask? Reply at the 8th grade reading level.
-
 """
 
 

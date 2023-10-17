@@ -3,6 +3,7 @@ import pinecone
 from time import sleep
 import uuid
 import os
+from local_secrets import pinecone_api_key, pinecone_environment
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -51,41 +52,38 @@ class Database:
             "id": str(uuid.uuid4()),
             "values": embedding,
             "metadata": {
-                "message": message
+                "text": message
             }
         }
         self.index.upsert(vectors=[data])
 
     def retrieve(self, message):
         query_embedding = self.create_embeddings(message)
-        results = self.index.query(vector=query_embedding, 
+        results = self.index.query(vector = query_embedding, 
                                    include_metadata = True, top_k=10)
-        arr = []
-        for data in results['matches']:
-            arr.append(data['metadata']['message'])
-        return arr
+        return results
 
-INDEX_NAME = "test"
-PINECONE_API_KEY = 
-PINECONE_ENVIRONMENT = 
-EMBED_MODEL = "text-embedding-ada-002"
+# INDEX_NAME = "test"
+# PINECONE_API_KEY = pinecone_api_key
+# PINECONE_ENVIRONMENT = pinecone_environment
+# EMBED_MODEL = "text-embedding-ada-002"
 
-db = Database(INDEX_NAME, PINECONE_API_KEY, PINECONE_ENVIRONMENT, EMBED_MODEL)
+# db = Database(INDEX_NAME, PINECONE_API_KEY, PINECONE_ENVIRONMENT, EMBED_MODEL)
 
-message = "Hello, this is a test message from hi. "
-db.insert(message)
+# message = "Hello, this is a test message from hi. "
+# db.insert(message)
 
-message = "Hello, this is another test message from abc."
-db.insert(message)
+# message = "Hello, this is another test message from abc."
+# db.insert(message)
 
-message = "Another test message from abcabcabc."
-db.insert(message)
+# message = "Another test message from abcabcabc."
+# db.insert(message)
 
-message = 'I LOve CATS CATS CATS'
-db.insert(message)
+# message = 'I LOve CATS CATS CATS'
+# db.insert(message)
 
-query_message = "i have a fever"
-retrieval_results = db.retrieve(query_message)
+# query_message = "i have a fever"
+# retrieval_results = db.retrieve(query_message)
 
-print("Retrieval Results:")
-print(retrieval_results)
+# print("Retrieval Results:")
+# print(retrieval_results)
