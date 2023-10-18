@@ -65,7 +65,6 @@ class Database:
             self.index.upsert(vectors=[data])
         print("metadata: ", data["metadata"])
 
-
     def retrieve(self, message):
         query_embedding = self.create_embeddings(message)
         results = self.index.query(vector = query_embedding, 
